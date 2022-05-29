@@ -74,6 +74,16 @@ class SQLiteAndroidDatabase
     }
 
     /**
+     *
+     * Open a database.
+     *
+     * @param dbfile   The database File specification
+     */
+    void open(String dbname, String key) throws Exception {
+        mydb = SQLiteDatabase.openOrCreateDatabase(dbname, key, null);
+    }
+
+    /**
      * Close a database (in the current thread).
      */
     void closeDatabaseNow() {
