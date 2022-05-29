@@ -252,7 +252,7 @@ public class SQLitePlugin extends CordovaPlugin {
             SQLiteAndroidDatabase mydb = new SQLiteAndroidDatabase();;
 
             if (":memory:".equals(dbname)) {
-                mydb = SQLiteDatabase.open(dbname, null);
+                mydb.open(dbname, null);
             } else {
                 File dbfile = this.cordova.getActivity().getDatabasePath(dbname);
 
