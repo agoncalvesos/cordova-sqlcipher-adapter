@@ -169,6 +169,18 @@ sqlite_regexp(sqlite3_context * context, int argc, sqlite3_value ** values) {
         NSLog(@"No db name specified for open");
         pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:@"You must specify database name"];
     }
+    //ADD SUPPORT TO INMEMORY DATABASE. THIS IS THE ONLY CHANGE NEEDED TO MAKE IT WORK.
+    else if ([dbfilename  isEqual: @":memory:"]){
+        sqlite3 *db;
+        const char *name = [dbfilename UTF8String];
+        if (sqlite3_open(name, &db) != SQLITE_OK) {
+            pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:@"Unable to open DB"];
+            return;
+        }
+        NSValue *dbPointer = [NSValue valueWithPointer:db];
+        [openDBs setObject: dbPointer forKey: dbfilename];
+        pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:@"InMemoryDatabase opened"];
+    }//END SUPPORT FOR INMEMORY DATABASE.
     else {
         NSValue *dbPointer = [openDBs objectForKey:dbfilename];
 
